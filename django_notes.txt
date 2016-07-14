@@ -1,0 +1,66 @@
+PowerShell jako administrator
+~ PowerShell Community Extensions
+https://wiki.mydevil.net/Python
+http://www.wiki.mydevil.net/Django
+
+umożliwiamy uruchamianie aplikacji na serwerze
+devil binexec on
+restart połączenia
+
+cd .virtualenvs
+virtualenv melawika_env -p /usr/local/bin/python3.5
+source melawika_env/bin/activate
+(deactivate)
+pip install django
+
+django-admin startproject melawika
+dodanie pliku passenger_wsgi.py do korzenia projektu (przetestowanie z python)
+restart aplikacji:
+devil www restart melawika.pl
+usuwamy pierwotny folder public_python:
+rm -rf public_python
+szybko zamieniamy nazwę naszego projektu na public_python:
+mv melawika public_python
+
+==================================================
+
+pip install virtualenv
+pip install virtualenvwrapper
+virtualenv melawika_env
+
+dla danej wersji py:
+virtualenv my_env -p <...\bin\python.exe>
+
+Set-ExecutionPolicy AllSigned
+melawika_env\Scripts\activate
+(deactivate)
+
+pip install django
+
+python:
+import django
+django.VERSION
+
+django-admin startproject melawika_beta
+cd melawika_beta
+tabele bazy danych dla początkowych aplikacji:
+python manage.py migrate
+python manage.py runserver
+wykrywa zmiany w plikach, ale nie widzi nowych plików, trzeba przeładować
+python manage.py runserver 127.0.0.1:8001 --settings=mysite.settings
+
+w produkcji uruchamiamy django jako aplikację Web Server Gateway Interface (WSGI), używając serwera web Apache, Gunicorn lub uWSGI
+
+python manage.py startapp blog
+
+- projekt w IntelliJ IDEA (książka - ćwiczenia, po czym wyjście do normalnego projektu)
+- repo zdalne na usłudze <-> repo lokalne, po przetestowaniu wysłanie na web z uwzględnieniem konfiguracji na serwerze
+
+- profesjonalne rozwiązanie deploymentu - CI
+- bardziej złożone rozwiązanie po dodaniu solidnej bazy danych
+- przetestować Jenkinsa
+- baza danych + JetBrains IDE
+
+http://blog.gabrielsaldana.org/python-django-deployment-workflow-tools/
+http://www.stefan-seelmann.de/wiki/python-deployment
+http://michal.karzynski.pl/blog/2014/04/19/continuous-integration-server-for-django-using-jenkins/
