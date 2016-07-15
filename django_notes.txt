@@ -47,11 +47,23 @@ tabele bazy danych dla początkowych aplikacji:
 python manage.py migrate
 python manage.py runserver
 wykrywa zmiany w plikach, ale nie widzi nowych plików, trzeba przeładować
+synchronizacja bazy z obecnymi modelami i migracjami dla wszystkich aplikacji
 python manage.py runserver 127.0.0.1:8001 --settings=mysite.settings
 
 w produkcji uruchamiamy django jako aplikację Web Server Gateway Interface (WSGI), używając serwera web Apache, Gunicorn lub uWSGI
 
 python manage.py startapp blog
+pip install pytz
+python manage.py makemigrations blog
+generuje instrukcje SQL na podstawie migracji bez wykonywania ich:
+python manage.py sqlmigrate blog 0001
+aplikacja migracji:
+python manage.py migrate
+
+python manage.py createsuperuser
+
+'author' z list_filter nie pojawia się na stronie
+poprawiłem w modelu 'blog_posts' na 'blog_post'
 
 - projekt w IntelliJ IDEA (książka - ćwiczenia, po czym wyjście do normalnego projektu)
 - repo zdalne na usłudze <-> repo lokalne, po przetestowaniu wysłanie na web z uwzględnieniem konfiguracji na serwerze
