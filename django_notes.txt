@@ -62,6 +62,40 @@ python manage.py migrate
 
 python manage.py createsuperuser
 
+python manage.py shell
+
+from django.contrib.auth.models import User
+from blog.models import Post
+user = User.objects.get(username='gulci')
+# bezpośrednio do bazy danych:
+post = Post.objects.create(title='One more post',
+                        slug='one-more-post',
+                        body='Post body.',
+                        author=user)
+# bez create() musimy użyć save()
+post = Post(title='Another post',
+        slug='another-post',
+        body='Another post body.',
+        author=user)
+post.save()
+
+# zmiany musimy potwierdzić save()
+post.title = 'Super test'
+post.save()
+
+# objects to manager modelu
+all_posts = Post.objects.all()
+
+# wykonanie nastąpi w momencie wypisania zmiennej
+# może się wykonać od razu jeśli nie przypiszemy do zmiennej
+Post.objects.all()
+
+Post.objects.filter(publish__year=2016)
+Post.objects.filter(author__username='gulci')
+Post.objects.filter(publish__year=2016, author__username='gulci')
+# można też za pomocą chainingu
+Post.objects.filter(publish__year=2016).filter(author__username='gulci')
+
 'author' z list_filter nie pojawia się na stronie
 poprawiłem w modelu 'blog_posts' na 'blog_post'
 
