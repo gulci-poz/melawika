@@ -64,6 +64,8 @@ python manage.py createsuperuser
 
 python manage.py shell
 
+# zapytania do bazy danych za pomocą API QuerySet
+
 from django.contrib.auth.models import User
 from blog.models import Post
 user = User.objects.get(username='gulci')
@@ -96,8 +98,37 @@ Post.objects.filter(publish__year=2016, author__username='gulci')
 # można też za pomocą chainingu
 Post.objects.filter(publish__year=2016).filter(author__username='gulci')
 
+Post.objects.filter(publish__year=2016).exclude(title__startswith='Another')
+
+Post.objects.order_by('title')
+Post.objects.order_by('-title')
+
+# usunięcie pozycji pociąga usunięcie relacji
+# indeksujemy od 1
+post = Post.objects.get(id=1)
+post.delete()
+
+# wykonywanie QuerySet:
+# pierwsza iteracja
+# slicing: Post.objects.all()[:3]
+# pickle or cache
+# wywołanie repr() lub len()
+# wywołanie explicite list() na na QuerySet
+# przy testowaniu z użyciem bool(), or, and lub if
+
+# tworzenie managera (models.py): dodatkowa metoda Post.objects.my_manager()
+# lub modyfikacja początkowego managera QuerySet Post.my_manager.all()
+# będziemy używali pola Post.published
+
+# możemy teraz filtrować używając nowego managera, czyli tutaj z tylko opublikowanych postów
+Post.published.filter(title__startswith='Another')
+
+==========
+
 'author' z list_filter nie pojawia się na stronie
 poprawiłem w modelu 'blog_posts' na 'blog_post'
+
+==========
 
 - projekt w IntelliJ IDEA (książka - ćwiczenia, po czym wyjście do normalnego projektu)
 - repo zdalne na usłudze <-> repo lokalne, po przetestowaniu wysłanie na web z uwzględnieniem konfiguracji na serwerze
